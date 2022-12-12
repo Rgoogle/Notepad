@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     /**
      * 数据库查询适配器
      */
-   public  CursorAdapter cursorAdapter;
+    public CursorAdapter cursorAdapter;
     /**
      * 添加文章按钮
      */
@@ -31,11 +31,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     /**
      * 数据库操作
      */
-   public DBOpenHelper dbOpenHelper;
+    public DBOpenHelper dbOpenHelper;
     /**
      * 日记数
      */
-  static int count;
+    static int count;
 
     @SuppressLint("Range")
     @Override
@@ -48,28 +48,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         dbOpenHelper = new DBOpenHelper(this);
 //        dbOpenHelper.inserPage("tittle", "ceshicontent");
 //        dbOpenHelper.inserPage("tittle1", "ceshicontent1");
-        Cursor c = dbOpenHelper.queryPage();
+        Cursor c = DBOpenHelper.queryPage();
 //        while (c.moveToNext()) {
 //
 //            System.out.println("ceshi:"+c.getString(c.getColumnIndex("title")));
 //        }
         cursorAdapter = new NoteListAdapter(this, c, true);
+
+
         listView = findViewById(R.id.listView);
         listView.setAdapter(cursorAdapter);
         listView.setOnItemClickListener(this);
     }
 
 
-
     /**
-     *  activity变为在屏幕上对用户可见时调用.
+     * activity变为在屏幕上对用户可见时调用.
      */
     @Override
     protected void onStart() {
         super.onStart();
-        Cursor c = dbOpenHelper.queryPage();
-        count=c.getCount();
-       cursorAdapter.swapCursor(c);
+        Cursor c = DBOpenHelper.queryPage();
+        count = c.getCount();
+        cursorAdapter.swapCursor(c);
     }
 
 //    @Override
@@ -79,22 +80,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 //        cursorAdapter.swapCursor(c);
 //    }
 
-    /**
-     * @param adapterView 被点击的AdapterView 可以获取当前点击的AdapterView
-     * @param view        被点击的View 可以获取当前点击的哪个
-     * @param i           当前点击的行号
-     * @param l           获取当前点击的行id
-     */
+//    /**
+//     * @param adapterView 被点击的AdapterView 可以获取当前点击的AdapterView
+//     * @param view        被点击的View 可以获取当前点击的哪个
+//     * @param i           当前点击的行号
+//     * @param l           获取当前点击的行id
+//     */
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        if (i == 0) {
-            Log.i("tiptip:", "sucess");
-            Intent intent = new Intent(this, WriteActivity.class);
-            intent.putExtra("id",i);
-            intent.putExtra("count",count);
-            startActivity(intent);
-        }
-        System.out.println("i："+i+" l:"+l);
+
+        Intent intent = new Intent(this, WriteActivity.class);
+
+        int currow= (int) l;
+        int curtotal= (int) l;
+        intent.putExtra("id", currow);
+        intent.putExtra("count", count);
+        System.out.println("tttttt:"+currow+"   "+count);
+        startActivity(intent);
+
+
     }
 
     @Override

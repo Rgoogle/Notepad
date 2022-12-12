@@ -23,7 +23,7 @@ public class WriteActivity extends Activity implements View.OnClickListener {
      * 上一张
      */
     Button prePage;
-    DBOpenHelper db;
+
 
 
     EditText writerTitle;
@@ -44,13 +44,17 @@ public class WriteActivity extends Activity implements View.OnClickListener {
         prePage.setOnClickListener(this);
         writerTitle = findViewById(R.id.write_title);
         writerContent = findViewById(R.id.write_content);
+
         intent = getIntent();
-        db = new DBOpenHelper(this);
-        id = intent.getIntExtra("id", 0);
-        count=intent.getIntExtra("count",0);
-  
-        Cursor cursor = db.queryPageById(id);
-//        cursor.moveToNext();
+        id = intent.getIntExtra("id", -1);
+        count=intent.getIntExtra("count",-1);
+
+        Cursor cursor = DBOpenHelper.queryPageById(id);
+
+        System.out.println("sssssss:"+id+"   "+count);
+//        Cursor c1=DBOpenHelper.queryPageById(1);
+//        System.out.println("cccc:"+c.getCount());
+        cursor.moveToNext();
 
         writerTitle.setText(cursor.getString(cursor.getColumnIndex("title")));
         writerContent.setText(cursor.getString(cursor.getColumnIndex("content")));
@@ -69,19 +73,36 @@ public class WriteActivity extends Activity implements View.OnClickListener {
         }
     }
 
+    @SuppressLint("Range")
     private void previousPage() {
-        if(id==0){
+
+        if(id==1){
             Toast.makeText(this,"这已经是第一章了",Toast.LENGTH_SHORT).show();
             return;
         }
         id--;
-        Cursor cursor = db.queryPageById(id);
+        Cursor cursor = DBOpenHelper.queryPageById(id);
 
+        cursor.moveToNext();
+
+        writerTitle.setText(cursor.getString(cursor.getColumnIndex("title")));
+        writerContent.setText(cursor.getString(cursor.getColumnIndex("content")));
     }
 
+    @SuppressLint("Range")
     private void nextPage() {
+        if(id==count){
+            Toast.makeText(this,"这是最后一章了",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        id++;
+        Cursor cursor = DBOpenHelper.queryPageById(id);
 
-        Cursor cursor = db.queryPageById(id);
+        cursor.moveToNext();
+
+        writerTitle.setText(cursor.getString(cursor.getColumnIndex("title")));
+        writerContent.setText(cursor.getString(cursor.getColumnIndex("content")));
+
 //        cursor.get
     }
 
@@ -99,15 +120,17 @@ public class WriteActivity extends Activity implements View.OnClickListener {
         //监听返回事件
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 //            addArticle();
+
             return super.onKeyDown(keyCode, event);
         }
+
         return super.onKeyDown(keyCode, event);
     }
 
     private void addArticle() {
         String title = writerTitle.getText().toString();
         String content = writerContent.getText().toString();
-        db.inserPage(title, content);
+        DBOpenHelper.inserPage(title, content);
     }
 
 

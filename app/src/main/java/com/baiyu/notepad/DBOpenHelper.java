@@ -17,24 +17,53 @@ import java.io.Serializable;
 public class DBOpenHelper extends SQLiteOpenHelper  {
 
     private static final int DB_VERSION = 1;
+
+    public static String getDbName() {
+        return DB_NAME;
+    }
+
+    public static void setDbName(String dbName) {
+        DB_NAME = dbName;
+    }
+
     /**
      * 数据库名
      */
     private static String DB_NAME = "notepad.db";
+
+    public static String getTableName() {
+        return TABLE_NAME;
+    }
+
+    public static void setTableName(String tableName) {
+        TABLE_NAME = tableName;
+    }
+
     /**
      * 数据库表名
      */
     public static String TABLE_NAME = "page";
+
+    public static SQLiteDatabase getDb() {
+        return db;
+    }
+
+    public void setDb(SQLiteDatabase db) {
+        DBOpenHelper.db = db;
+    }
+
     /**
      *
      */
-    SQLiteDatabase db;
+    static SQLiteDatabase db;
+
+
+
 
     public DBOpenHelper(@Nullable Context context) {
         super(context, DB_NAME, null,DB_VERSION);
-        this.db = getWritableDatabase();
+        db = getWritableDatabase();
     }
-
 
 
 
@@ -75,7 +104,7 @@ public class DBOpenHelper extends SQLiteOpenHelper  {
      * @param title
      * @param content
      */
-    public void inserPage(String title, String content) {
+    public static void inserPage(String title, String content) {
         String sql = "INSERT INTO " + TABLE_NAME + " (title, content) VALUES (?, ?)";
         Object[] bindArgs = new Object[]{title, content};
         db.execSQL(sql, bindArgs);
@@ -87,7 +116,7 @@ public class DBOpenHelper extends SQLiteOpenHelper  {
      *
      * @param title
      */
-    public void deletePage(String title) {
+    public static void deletePage(String title) {
         String sql = "DELETE FROM " + TABLE_NAME + " WHERE　title=?";
         Object[] bindArgs = new Object[]{title};
         db.execSQL(sql, bindArgs);
@@ -99,7 +128,7 @@ public class DBOpenHelper extends SQLiteOpenHelper  {
      *
      * @return
      */
-    public Cursor queryPage() {
+    public static Cursor queryPage() {
         Cursor cursor = db.query(TABLE_NAME, new String[]{"_id", "title", "content"}, null, null, null, null, null);
         return cursor;
     }
@@ -110,13 +139,13 @@ public class DBOpenHelper extends SQLiteOpenHelper  {
      * @param title
      * @return
      */
-    public Cursor queryPageBytitle(String title) {
+    public static Cursor queryPageBytitle(String title) {
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE title=?";
         Cursor cursor = db.rawQuery(sql, new String[]{title});
         return cursor;
     }
 
-    public void updatePageTitleAndContent(String title, String content) {
+    public static void updatePageTitleAndContent(String title, String content) {
 //        String sql="UPDATE "+TABLE_NAME+" SET title=?,content=? WHERE title=?";
         ContentValues values = new ContentValues();
         values.put("title", title);
@@ -126,7 +155,7 @@ public class DBOpenHelper extends SQLiteOpenHelper  {
     }
 
 
-    public Cursor queryPageById(int id){
+    public static Cursor queryPageById(int id){
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE _id=?";
         Cursor cursor = db.rawQuery(sql, new String[]{String.valueOf(id)});
         return cursor;

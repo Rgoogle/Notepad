@@ -38,11 +38,11 @@ public class AddArticle extends Activity {
             String con=this.content.getText().toString();
             System.out.println("ccccccccc:"+title + " " +content);
             if(ti.length()==0&&con.length()==0){
-
+                saveArticle();
             }
 
 
-            saveArticle();
+
             return super.onKeyDown(keyCode, event);
         }
         return super.onKeyDown(keyCode, event);
@@ -54,7 +54,7 @@ public class AddArticle extends Activity {
     private void saveArticle() {
         String ti=title.getText().toString();
         String con=content.getText().toString();
-        dbOpenHelper.inserPage(ti,con);
+        DBOpenHelper.inserPage(ti,con);
     }
 
 

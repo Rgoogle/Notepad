@@ -135,7 +135,7 @@ public class WriteActivity extends Activity implements View.OnClickListener {
     private void updateArticle() {
         String title = writerTitle.getText().toString();
         String content = writerContent.getText().toString();
-        System.out.println("iiiiiiiiii:"+title + "   "+content);
+//        System.out.println("iiiiiiiiii:"+title + "   "+content);
         DBOpenHelper.updatePageTitleAndContentById(String.valueOf(id),title, content);
     }
 

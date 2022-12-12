@@ -7,6 +7,9 @@ import android.view.KeyEvent;
 import android.widget.EditText;
 import androidx.annotation.Nullable;
 
+/**
+ * 添加文章界面
+ */
 public class AddArticle extends Activity {
     EditText title;
     EditText content;

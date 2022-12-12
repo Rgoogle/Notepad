@@ -73,12 +73,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         cursorAdapter.swapCursor(c);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Cursor c = dbOpenHelper.queryPage();
-//        cursorAdapter.swapCursor(c);
-//    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Cursor c = DBOpenHelper.queryPage();
+        count = c.getCount();
+        cursorAdapter.swapCursor(c);
+    }
 
 //    /**
 //     * @param adapterView 被点击的AdapterView 可以获取当前点击的AdapterView

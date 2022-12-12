@@ -13,6 +13,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 
+/**
+ * 编辑界面
+ */
 public class WriteActivity extends Activity implements View.OnClickListener {
     /**
      * 下一章
@@ -119,18 +122,21 @@ public class WriteActivity extends Activity implements View.OnClickListener {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         //监听返回事件
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-//            addArticle();
-
+            updateArticle();
             return super.onKeyDown(keyCode, event);
         }
 
         return super.onKeyDown(keyCode, event);
     }
 
-    private void addArticle() {
+    /**
+     * 修改日记
+     */
+    private void updateArticle() {
         String title = writerTitle.getText().toString();
         String content = writerContent.getText().toString();
-        DBOpenHelper.inserPage(title, content);
+        System.out.println("iiiiiiiiii:"+title + "   "+content);
+        DBOpenHelper.updatePageTitleAndContentById(String.valueOf(id),title, content);
     }
 
 

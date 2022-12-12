@@ -154,6 +154,14 @@ public class DBOpenHelper extends SQLiteOpenHelper  {
         db.update(TABLE_NAME, values, "title=?", new String[]{title});
     }
 
+    public static void updatePageTitleAndContentById(String id,String title, String content) {
+//        String sql="UPDATE "+TABLE_NAME+" SET title=?,content=? WHERE title=?";
+        ContentValues values = new ContentValues();
+        values.put("title", title);
+        values.put("content", content);
+        //表名 修改的值 包装在一个对象里面      条件  条件的值
+        db.update(TABLE_NAME, values, "_id=?", new String[]{id});
+    }
 
     public static Cursor queryPageById(int id){
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE _id=?";
